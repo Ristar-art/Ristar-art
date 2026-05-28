@@ -1,25 +1,28 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import Header from './Header.svelte';
 	import './layout.css';
 
 	let { children } = $props();
 
 	const year = new Date().getFullYear();
+	const isHome = $derived(page.url.pathname === '/');
 </script>
 
 <div class="app">
 	<Header />
-	<main>{@render children()}</main>
+	<main class:home={isHome}>{@render children()}</main>
 
 	<footer>
 		<div class="footer-inner">
 			<div class="footer-brand">
-				<span class="footer-logo">Ristar<span class="footer-logo-accent">-art</span></span>
+				<span class="footer-logo">RISTAR<span class="footer-logo-accent">_ART</span></span>
 				<p>Fast, conversion-focused web &amp; mobile apps for enterprise and local businesses.</p>
+				<span class="footer-meta">v0.0.1 / South Africa</span>
 			</div>
 
 			<nav class="footer-col" aria-label="Footer">
-				<span class="footer-heading">Explore</span>
+				<span class="footer-heading">// Explore</span>
 				<a href="/">Home</a>
 				<a href="/about">About</a>
 				<a href="/projects">Projects</a>
@@ -28,7 +31,7 @@
 			</nav>
 
 			<div class="footer-col">
-				<span class="footer-heading">Get in touch</span>
+				<span class="footer-heading">// Get in touch</span>
 				<a href="mailto:mochochokoboiketlo@gmail.com">mochochokoboiketlo@gmail.com</a>
 				<a
 					href="https://github.com/Ristar-art"
@@ -47,8 +50,8 @@
 		</div>
 
 		<div class="footer-bottom">
-			<p>© {year} Ristar-art. All rights reserved.</p>
-			<p>Designed &amp; built by Boiketlo Mochochoko.</p>
+			<p>© {year} RISTAR_ART — ALL RIGHTS RESERVED</p>
+			<p>DESIGNED &amp; BUILT BY BOIKETLO MOCHOCHOKO</p>
 		</div>
 	</footer>
 </div>
@@ -64,23 +67,30 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		padding: 2rem var(--gutter);
 		width: 100%;
-		max-width: 64rem;
+		max-width: var(--container);
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
 
+	/* Landing page sections paint full-bleed and manage their own padding. */
+	main.home {
+		padding: 0;
+		max-width: none;
+	}
+
 	footer {
-		background: #1a1a1a;
-		color: rgba(255, 255, 255, 0.7);
+		background: var(--bg-dark);
+		color: var(--ink-dark-dim);
 		width: 100%;
+		border-top: 1px solid var(--rule-dark);
 	}
 
 	.footer-inner {
-		max-width: 64rem;
+		max-width: var(--container);
 		margin: 0 auto;
-		padding: 3rem 1rem 2rem;
+		padding: 3.5rem var(--gutter) 2.5rem;
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 2.5rem;
@@ -88,49 +98,57 @@
 	}
 
 	.footer-logo {
-		font-family: var(--font-display);
-		font-size: 1.5rem;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: white;
+		font-family: var(--font-mono);
+		font-weight: 700;
+		font-size: 1.1rem;
+		letter-spacing: 0.04em;
+		color: var(--ink-dark);
 	}
 
 	.footer-logo-accent {
-		color: #ff3e00;
+		color: var(--accent);
 	}
 
 	.footer-brand p {
-		margin: 0.75rem 0 0;
-		font-size: 0.9rem;
+		margin: 0.85rem 0 0.85rem;
+		font-size: 0.82rem;
 		line-height: 1.6;
-		max-width: 30ch;
+		max-width: 34ch;
+	}
+
+	.footer-meta {
+		font-size: 0.68rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--rule-dark);
 	}
 
 	.footer-heading {
 		display: block;
-		font-family: var(--font-display);
-		font-size: 0.7rem;
-		letter-spacing: 0.2em;
+		font-family: var(--font-mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: #ff3e00;
-		margin-bottom: 1rem;
+		color: var(--accent);
+		margin-bottom: 1.1rem;
 	}
 
 	.footer-col {
 		display: flex;
 		flex-direction: column;
-		gap: 0.65rem;
+		gap: 0.7rem;
 	}
 
 	footer a {
-		color: rgba(255, 255, 255, 0.7);
+		color: var(--ink-dark-dim);
 		text-decoration: none;
-		font-size: 0.9rem;
-		transition: color 0.2s;
+		font-size: 0.82rem;
+		letter-spacing: 0.02em;
+		transition: color 0.12s;
 	}
 
 	footer a:hover {
-		color: #ff3e00;
+		color: var(--accent);
 		text-decoration: none;
 	}
 
@@ -141,19 +159,20 @@
 	}
 
 	.footer-social svg {
-		width: 18px;
-		height: 18px;
+		width: 16px;
+		height: 16px;
 	}
 
 	.footer-bottom {
-		max-width: 64rem;
+		max-width: var(--container);
 		margin: 0 auto;
-		padding: 1.5rem 1rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		padding: 1.5rem var(--gutter);
+		border-top: 1px solid var(--rule-dark);
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		font-size: 0.8rem;
+		font-size: 0.66rem;
+		letter-spacing: 0.1em;
 		box-sizing: border-box;
 	}
 
@@ -165,7 +184,7 @@
 		.footer-inner {
 			grid-template-columns: 2fr 1fr 1.5fr;
 			gap: 3rem;
-			padding: 4rem 1rem 2.5rem;
+			padding: 4.5rem var(--gutter) 3rem;
 		}
 
 		.footer-bottom {

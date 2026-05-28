@@ -11,10 +11,10 @@
 </script>
 
 <nav class="page-nav" aria-label="Page sections">
-	<!-- <span class="page-nav-label">sections</span> -->
+	<span class="page-nav-label">// index</span>
 	<ul>
-		{#each sections as section}
-			<li style={`padding-right: ${section.level * 0.75}rem`}>
+		{#each sections as section, i}
+			<li>
 				<a
 					href={`#${section.id}`}
 					class:active={activeSection === section.id}
@@ -24,7 +24,8 @@
 						scrollToSection(section.id);
 					}}
 				>
-					{section.title}
+					<span class="num">{String(i + 1).padStart(2, '0')}</span>
+					<span class="label">{section.title}</span>
 				</a>
 			</li>
 		{/each}
@@ -36,28 +37,30 @@
 		display: none;
 	}
 
-	/* Only show once the centered 64rem main leaves enough gutter to the right. */
-	@media (min-width: 1300px) {
+	/* Self-contained dark HUD panel so the lime accent reads correctly
+	   regardless of the (dark or light) section scrolling behind it. */
+	@media (min-width: 1440px) {
 		.page-nav {
 			display: block;
 			position: fixed;
 			top: 50%;
-			right: calc((100vw - 64rem) / 2 - 8.5rem);
+			right: max(1.25rem, calc((100vw - var(--container)) / 2 - 9rem));
 			transform: translateY(-50%);
-			width: 8rem;
 			z-index: 20;
+			background: var(--bg-dark);
+			border: 1px solid var(--rule-dark);
+			padding: 0.85rem 0.9rem;
 		}
 	}
 
 	.page-nav-label {
 		display: block;
-		font-family: var(--font-display);
-		font-size: 0.65rem;
-		letter-spacing: 0.3em;
+		font-family: var(--font-mono);
+		font-size: 0.56rem;
+		letter-spacing: 0.2em;
 		text-transform: uppercase;
-		color: #ff3e00;
-		margin: 0 0.75rem 0.75rem 0;
-		text-align: right;
+		color: var(--accent);
+		margin: 0 0 0.65rem 0;
 	}
 
 	.page-nav ul {
@@ -66,47 +69,44 @@
 		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.15rem;
-		border-right: 2px solid rgba(0, 0, 0, 0.08);
+		gap: 0;
 	}
 
 	.page-nav a {
 		position: relative;
-		display: block;
-		padding: 0.4rem 0.75rem;
-		font-family: var(--font-display);
-		font-size: 0.72rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.4rem 0 0.4rem 0.65rem;
+		border-left: 1px solid var(--rule-dark);
+		font-family: var(--font-mono);
+		font-size: 0.64rem;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		text-align: right;
-		color: #999;
+		color: var(--ink-dark-dim);
 		text-decoration: none;
-		transition: color 0.2s;
+		transition: color 0.15s, border-color 0.15s;
 	}
 
-	.page-nav a::before {
-		content: '';
-		position: absolute;
-		right: -2px;
-		top: 50%;
-		width: 2px;
-		height: 60%;
-		background: #ff3e00;
-		transform: translateY(-50%) scaleY(0);
-		transform-origin: center;
-		transition: transform 0.2s;
+	.page-nav a .num {
+		font-size: 0.54rem;
+		color: var(--rule-dark);
+		transition: color 0.15s;
 	}
 
 	.page-nav a:hover {
-		color: #ff3e00;
+		color: var(--ink-dark);
+		border-color: var(--ink-dark-dim);
 		text-decoration: none;
 	}
 
 	.page-nav a.active {
-		color: #ff3e00;
+		color: var(--accent);
+		border-color: var(--accent);
 	}
 
-	.page-nav a.active::before {
-		transform: translateY(-50%) scaleY(1);
+	.page-nav a.active .num,
+	.page-nav a:hover .num {
+		color: var(--accent);
 	}
 </style>

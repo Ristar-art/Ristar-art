@@ -13,7 +13,7 @@
 	const facts = [
 		{ k: 'Role', v: 'Full-Stack Developer' },
 		{ k: 'Focus', v: 'Web & Mobile Apps' },
-		{ k: 'Region', v: 'South Africa' },
+		{ k: 'Region', v: 'Johannesburg / South Africa' },
 		{ k: 'Status', v: 'Available for work' }
 	];
 </script>
@@ -156,10 +156,11 @@
 		padding: 3rem 0 2rem;
 	}
 
-	/* ── CV frame: hard border + lime corner brackets ─────── */
+	/* ── CV frame: A4 proportions + lime corner brackets ─── */
 	.cv-frame {
 		position: relative;
-		max-width: 760px;
+		width: 100%;
+		max-width: 620px;
 		margin: 0 auto;
 		padding: 0.6rem;
 		border: 1px solid var(--rule-dark);
@@ -190,7 +191,7 @@
 
 	.cv-frame iframe {
 		width: 100%;
-		aspect-ratio: 594.95996 / 841.91998;
+		aspect-ratio: 210 / 297;
 		border: none;
 		background: white;
 		display: block;

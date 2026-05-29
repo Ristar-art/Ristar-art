@@ -8,7 +8,7 @@
 		{ href: '/', label: 'Home', match: (p: string) => p === '/' },
 		{ href: '/about', label: 'About', match: (p: string) => p === '/about' },
 		{ href: '/projects', label: 'Projects', match: (p: string) => p.startsWith('/projects') },
-		{ href: '/blog', label: 'Blog', match: (p: string) => p.startsWith('/blog') },
+		// { href: '/blog', label: 'Blog', match: (p: string) => p.startsWith('/blog') },
 		{ href: '/contact', label: 'Contact', match: (p: string) => p.startsWith('/contact') }
 	];
 
@@ -17,6 +17,8 @@
 		page.url.pathname;
 		open = false;
 	});
+
+	const user = $derived(page.data.session?.user);
 </script>
 
 <header>
@@ -54,6 +56,18 @@
 					<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
 				</svg>
 			</a>
+
+			{#if user}
+				<a href="/dashboard" class="account" aria-label="Dashboard">
+					{#if user.image}
+						<img src={user.image} alt="" referrerpolicy="no-referrer" />
+					{:else}
+						<span class="account-fallback">{(user.name ?? user.email ?? '?').slice(0, 1)}</span>
+					{/if}
+				</a>
+			<!-- {:else}
+				<a href="/login" class="login">Login</a> -->
+			{/if}
 
 			<button
 				class="menu-toggle"
@@ -219,6 +233,55 @@
 
 	.github:hover {
 		color: var(--accent);
+	}
+
+	.login {
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent-ink);
+		background: var(--accent);
+		padding: 0.4rem 0.85rem;
+		text-decoration: none;
+		transition: opacity 0.12s ease;
+	}
+
+	.login:hover {
+		text-decoration: none;
+		opacity: 0.85;
+	}
+
+	.account {
+		display: inline-flex;
+		line-height: 0;
+	}
+
+	.account img,
+	.account-fallback {
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		border: 1px solid var(--rule-dark);
+		object-fit: cover;
+		transition: border-color 0.12s ease;
+	}
+
+	.account:hover img,
+	.account:hover .account-fallback {
+		border-color: var(--accent);
+	}
+
+	.account-fallback {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background: var(--bg-dark-2);
+		color: var(--accent);
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
 	}
 
 	@media (max-width: 820px) {

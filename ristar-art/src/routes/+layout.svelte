@@ -18,7 +18,7 @@
 			<div class="footer-brand">
 				<span class="footer-logo">RISTAR<span class="footer-logo-accent">_ART</span></span>
 				<p>Fast, conversion-focused web &amp; mobile apps for enterprise and local businesses.</p>
-				<span class="footer-meta">v0.0.1 / South Africa</span>
+				<span class="footer-meta">Johannesburg / South Africa</span>
 			</div>
 
 			<nav class="footer-col" aria-label="Footer">
@@ -26,7 +26,7 @@
 				<a href="/">Home</a>
 				<a href="/about">About</a>
 				<a href="/projects">Projects</a>
-				<a href="/blog">Blog</a>
+				<!-- <a href="/blog">Blog</a> -->
 				<a href="/contact">Contact</a>
 			</nav>
 

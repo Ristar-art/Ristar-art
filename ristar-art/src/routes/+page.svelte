@@ -109,7 +109,7 @@
 		</div>
 
 		<figure class="hero-image">
-			<img src="/myheroimage.webp" alt="Boiketlo Mochochoko" />
+			<img src="/heropic.webp" alt="Boiketlo Mochochoko" />
 			<figcaption>
 				<span>RISTAR</span>
 				<span class="ok">● ONLINE</span>

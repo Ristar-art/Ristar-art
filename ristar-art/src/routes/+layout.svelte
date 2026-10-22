@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import Header from './Header.svelte';
+	import { SITE_NAME, SITE_URL, CONTACT_EMAIL, GITHUB_URL } from '$lib/site';
 	import './layout.css';
 
 	let { children } = $props();
 
 	const year = new Date().getFullYear();
 	const isHome = $derived(page.url.pathname === '/');
+	const domain = SITE_URL.replace(/^https?:\/\//, '').toUpperCase();
 </script>
 
 <div class="app">
@@ -16,8 +18,11 @@
 	<footer>
 		<div class="footer-inner">
 			<div class="footer-brand">
-				<span class="footer-logo">RISTAR<span class="footer-logo-accent">_ART</span></span>
-				<p>Fast, conversion-focused web &amp; mobile apps for enterprise and local businesses.</p>
+				<span class="footer-logo">WHITE ROBES<span class="footer-logo-accent">_DEV</span></span>
+				<p>
+					A South African software studio building fast, conversion-focused web &amp;
+					mobile applications for enterprise and local business.
+				</p>
 				<span class="footer-meta">Johannesburg / South Africa</span>
 			</div>
 
@@ -32,9 +37,9 @@
 
 			<div class="footer-col">
 				<span class="footer-heading">// Get in touch</span>
-				<a href="mailto:mochochokoboiketlo@gmail.com">mochochokoboiketlo@gmail.com</a>
+				<a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
 				<a
-					href="https://github.com/Ristar-art"
+					href={GITHUB_URL}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="footer-social"
@@ -50,8 +55,8 @@
 		</div>
 
 		<div class="footer-bottom">
-			<p>© {year} RISTAR_ART — ALL RIGHTS RESERVED</p>
-			<p>DESIGNED &amp; BUILT BY BOIKETLO MOCHOCHOKO</p>
+			<p>© {year} {SITE_NAME.toUpperCase()} — ALL RIGHTS RESERVED</p>
+			<p>{domain}</p>
 		</div>
 	</footer>
 </div>
@@ -120,7 +125,7 @@
 		font-size: 0.68rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--rule-dark);
+		color: var(--ink-dark-dim);
 	}
 
 	.footer-heading {

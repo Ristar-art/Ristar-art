@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { Mail, Clock, MapPin, Send, Copy, Check } from '@lucide/svelte';
+	import Seo from '$lib/Seo.svelte';
+	import { CONTACT_EMAIL, GITHUB_URL } from '$lib/site';
+	import { PUBLIC_API_BASE } from '$env/static/public';
 
-	const EMAIL = 'mochochokoboiketlo@gmail.com';
-	const ACCENT = '#ccff00';
+	const EMAIL = CONTACT_EMAIL;
+	const ICON = '#17181c';
 
 	const projectTypes = [
 		'Web Application',
@@ -29,7 +32,8 @@
 		status = 'sending';
 		errorMsg = '';
 		try {
-			const res = await fetch('/api/contact', {
+			// The site is static — enquiries go to the standalone API.
+			const res = await fetch(`${PUBLIC_API_BASE}/api/contact`, {
 				method: 'POST',
 				headers: { 'content-type': 'application/json' },
 				body: JSON.stringify({ name, email, projectType, message, company })
@@ -64,17 +68,17 @@
 	];
 </script>
 
-<svelte:head>
-	<title>Contact</title>
-	<meta name="description" content="Get in touch with Boiketlo Mochochoko" />
-</svelte:head>
+<Seo
+	title="Contact — Start a Project | White Robes Development"
+	description="Get in touch with White Robes Development to start a fast, conversion-focused web or mobile project. We respond within 24 hours."
+/>
 
 <header class="page-head">
 	<span class="eyebrow">// contact</span>
 	<h1>Let's build<br />something.</h1>
 	<p>
-		Tell me about the project — scope, timeline, whatever you've got. I'll get back to you within a
-		day.
+		Tell us about the project — scope, timeline, whatever you've got. We'll get back to you within
+		a day.
 	</p>
 </header>
 
@@ -123,17 +127,17 @@
 		</div>
 
 		<button type="submit" class="submit" disabled={!ready || status === 'sending'}>
-			<Send size={16} color={ready && status !== 'sending' ? '#0a0a0a' : ACCENT} strokeWidth={2} />
+			<Send size={16} color={ready && status !== 'sending' ? '#17181c' : '#5f6066'} strokeWidth={2} />
 			{#if status === 'sending'}Sending…{:else if status === 'sent'}Sent ✓{:else}Send Message{/if}
 		</button>
 
 		{#if status === 'sent'}
 			<p class="note note--ok">
-				Message sent. Thanks — I'll get back to you within a day at the email you provided.
+				Message sent. Thanks — we'll get back to you within a day at the email you provided.
 			</p>
 		{:else if status === 'error'}
 			<p class="note note--err">
-				{errorMsg} You can also email me directly at <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+				{errorMsg} You can also email us directly at <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
 			</p>
 		{/if}
 	</form>
@@ -146,21 +150,21 @@
 			<span class="email-label">Email</span>
 			<span class="email-val">{EMAIL}</span>
 			<span class="email-copy">
-				{#if copied}<Check size={14} color={ACCENT} />{:else}<Copy size={14} />{/if}
+				{#if copied}<Check size={14} color={ICON} />{:else}<Copy size={14} />{/if}
 				{copied ? 'Copied' : 'Copy'}
 			</span>
 		</button>
 
-		<a class="email-row" href="https://github.com/Ristar-art" target="_blank" rel="noopener noreferrer">
+		<a class="email-row" href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
 			<span class="email-label">GitHub</span>
-			<span class="email-val">github.com/Ristar-art</span>
+			<span class="email-val">{GITHUB_URL.replace('https://', '')}</span>
 			<span class="email-copy">Open →</span>
 		</a>
 
 		<dl class="meta">
 			{#each channels as c}
 				<div class="meta-row">
-					<dt><c.icon size={14} color={ACCENT} strokeWidth={1.75} /> {c.k}</dt>
+					<dt><c.icon size={14} color={ICON} strokeWidth={1.75} /> {c.k}</dt>
 					<dd>{c.v}</dd>
 				</div>
 			{/each}
@@ -176,15 +180,18 @@
 <style>
 	.page-head {
 		padding: 1rem 0 2.5rem;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule-light);
 	}
 
 	.eyebrow {
 		display: inline-block;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.15rem 0.45rem;
+		align-self: flex-start;
 		font-size: 0.68rem;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: var(--accent);
 		margin-bottom: 1.25rem;
 	}
 
@@ -192,21 +199,25 @@
 		font-size: clamp(2.2rem, 7vw, 3.6rem);
 		letter-spacing: -0.02em;
 		line-height: 1;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 		margin-bottom: 1.25rem;
 	}
 
 	.page-head p {
 		font-size: 0.92rem;
 		line-height: 1.6;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		max-width: 50ch;
 	}
 
 	.sec-index {
+		display: inline-block;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.15rem 0.45rem;
+		align-self: flex-start;
 		font-size: 0.68rem;
 		letter-spacing: 0.18em;
-		color: var(--accent);
 		font-weight: 500;
 	}
 
@@ -229,17 +240,17 @@
 		justify-content: space-between;
 		align-items: baseline;
 		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--ink-dark);
+		border-bottom: 1px solid var(--ink-light);
 	}
 
 	.form-status {
 		font-size: 0.66rem;
 		letter-spacing: 0.14em;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 	}
 
 	.form-status.on {
-		color: var(--accent);
+		color: var(--ink-light);
 	}
 
 	/* honeypot — visually removed but reachable by bots */
@@ -264,22 +275,22 @@
 		font-size: 0.68rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 	}
 
 	.fnum {
 		font-size: 0.6rem;
-		color: var(--rule-dark);
+		color: var(--ink-light-dim);
 	}
 
 	input,
 	textarea,
 	select {
 		width: 100%;
-		background: var(--bg-dark-2);
-		border: 1px solid var(--rule-dark);
+		background: var(--bg-light-2);
+		border: 1px solid var(--rule-light);
 		border-radius: 0;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 		font-family: var(--font-mono);
 		font-size: 0.88rem;
 		padding: 0.8rem 0.9rem;
@@ -290,15 +301,15 @@
 
 	input::placeholder,
 	textarea::placeholder {
-		color: var(--rule-dark);
+		color: var(--ink-light-dim);
 	}
 
 	input:focus,
 	textarea:focus,
 	select:focus {
 		outline: none;
-		border-color: var(--accent);
-		box-shadow: inset 0 0 0 1px var(--accent);
+		border-color: var(--ink-light);
+		box-shadow: inset 0 0 0 1px var(--ink-light);
 	}
 
 	textarea {
@@ -316,13 +327,13 @@
 		top: 50%;
 		transform: translateY(-50%);
 		font-size: 0.6rem;
-		color: var(--accent);
+		color: var(--ink-light);
 		pointer-events: none;
 	}
 
 	select option {
-		background: var(--bg-dark-2);
-		color: var(--ink-dark);
+		background: var(--bg-light-2);
+		color: var(--ink-light);
 	}
 
 	.submit {
@@ -346,20 +357,20 @@
 
 	.submit:hover:not(:disabled) {
 		transform: translate(-1px, -1px);
-		box-shadow: 4px 4px 0 var(--rule-dark);
+		box-shadow: 4px 4px 0 var(--ink-light);
 	}
 
 	.submit:disabled {
 		background: transparent;
-		color: var(--ink-dark-dim);
-		border-color: var(--rule-dark);
+		color: var(--ink-light-dim);
+		border-color: var(--ink-light-dim);
 		cursor: not-allowed;
 	}
 
 	.note {
 		font-size: 0.76rem;
 		line-height: 1.6;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		border-left: 2px solid var(--accent);
 		padding-left: 0.9rem;
 		margin: 0;
@@ -374,7 +385,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		border: 1px solid var(--rule-dark);
+		border: 1px solid var(--rule-light);
 		padding: 1.5rem;
 		height: fit-content;
 	}
@@ -385,7 +396,7 @@
 		align-items: center;
 		gap: 0.25rem 1rem;
 		padding: 1rem 0;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule-light);
 		background: none;
 		border-left: none;
 		border-right: none;
@@ -394,7 +405,7 @@
 		cursor: pointer;
 		text-decoration: none;
 		font-family: var(--font-mono);
-		color: var(--ink-dark);
+		color: var(--ink-light);
 		transition: color 0.14s;
 	}
 	.email-row:first-of-type {
@@ -406,14 +417,14 @@
 		font-size: 0.62rem;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--rule-dark);
+		color: var(--ink-light-dim);
 	}
 
 	.email-val {
 		grid-column: 1;
 		font-size: 0.82rem;
 		letter-spacing: 0.02em;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 		word-break: break-all;
 	}
 
@@ -426,15 +437,19 @@
 		font-size: 0.64rem;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		white-space: nowrap;
 	}
 
 	.email-row:hover .email-val {
-		color: var(--accent);
+		text-decoration: underline;
+		text-decoration-color: var(--accent);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+		color: var(--ink-light);
 	}
 	.email-row:hover .email-copy {
-		color: var(--accent);
+		color: var(--ink-light);
 	}
 
 	.meta {
@@ -449,7 +464,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 0.7rem 0;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule-light);
 	}
 	.meta-row:last-child {
 		border-bottom: none;
@@ -462,14 +477,14 @@
 		font-size: 0.66rem;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 	}
 
 	.meta dd {
 		margin: 0;
 		font-size: 0.76rem;
 		letter-spacing: 0.04em;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 	}
 
 	.avail {
@@ -478,11 +493,11 @@
 		gap: 0.6rem;
 		margin-top: 0.75rem;
 		padding-top: 1rem;
-		border-top: 1px solid var(--rule-dark);
+		border-top: 1px solid var(--rule-light);
 		font-size: 0.66rem;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 	}
 
 	.avail-dot {

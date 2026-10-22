@@ -1,4 +1,7 @@
 <script lang="ts">
+	import Seo from '$lib/Seo.svelte';
+	import { CONTACT_EMAIL } from '$lib/site';
+
 	const projects = [
 		{
 			href: 'https://sowheretoaccess.com/',
@@ -30,10 +33,10 @@
 	];
 </script>
 
-<svelte:head>
-	<title>Projects — Ristar-art</title>
-	<meta name="description" content="Selected work by Boiketlo Mochochoko — live web and mobile builds." />
-</svelte:head>
+<Seo
+	title="Projects — Live Web & Mobile Builds | White Robes Development"
+	description="Selected work by Boiketlo Mochochoko, founder of White Robes Development — live e-commerce, EdTech and tourism builds delivered before the studio was formed."
+/>
 
 <header class="page-head">
 	<span class="eyebrow">// work</span>
@@ -42,22 +45,27 @@
 		A selection of live builds — from e-commerce marketplaces to tourism and training platforms.
 		Each one shipped, deployed, and running in production.
 	</p>
+	<p class="attrib">
+		These projects were delivered by Boiketlo Mochochoko personally, before White Robes
+		Development was founded. They are shown here as evidence of capability, not as studio work.
+		Everything built under the White Robes name from here on will be listed as such.
+	</p>
 	<dl class="facts">
 		<div class="fact">
 			<dt>Builds</dt>
 			<dd>{projects.length} live</dd>
 		</div>
 		<div class="fact">
+			<dt>Delivered by</dt>
+			<dd>Founder, pre-studio</dd>
+		</div>
+		<div class="fact">
 			<dt>Focus</dt>
 			<dd>Web &amp; Mobile</dd>
 		</div>
 		<div class="fact">
-			<dt>Region</dt>
-			<dd>South Africa</dd>
-		</div>
-		<div class="fact">
 			<dt>Status</dt>
-			<dd>Available for work</dd>
+			<dd>Taking on new projects</dd>
 		</div>
 	</dl>
 </header>
@@ -96,14 +104,12 @@
 		<span class="cta-eyebrow">// more on the way</span>
 		<h2 class="cta-heading">Want to be<br />the next build?</h2>
 		<p class="cta-text">
-			More projects are being added soon. If you've got an idea, let's turn it into something
-			real and shippable.
+			The same hands, now working under White Robes Development. If you've got an idea, let's
+			turn it into something real and shippable.
 		</p>
 		<div class="cta-actions">
 			<a href="/contact" class="btn btn--invert">Start a Project →</a>
-			<a href="mailto:mochochokoboiketlo@gmail.com" class="cta-mail"
-				>mochochokoboiketlo@gmail.com</a
-			>
+			<a href={`mailto:${CONTACT_EMAIL}`} class="cta-mail">{CONTACT_EMAIL}</a>
 		</div>
 	</div>
 </section>
@@ -112,16 +118,19 @@
 	/* ── Page header (matches /about pattern) ─────────────── */
 	.page-head {
 		padding: 1rem 0 2.5rem;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule-light);
 		max-width: 60rem;
 	}
 
 	.eyebrow {
 		display: inline-block;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.15rem 0.45rem;
+		align-self: flex-start;
 		font-size: 0.68rem;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: var(--accent);
 		margin-bottom: 1.25rem;
 	}
 
@@ -129,15 +138,23 @@
 		font-size: clamp(2rem, 6vw, 3.2rem);
 		letter-spacing: -0.02em;
 		line-height: 1;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 		margin-bottom: 1.25rem;
 	}
 
 	.page-head p {
 		font-size: 0.92rem;
 		line-height: 1.6;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		max-width: 56ch;
+	}
+
+	.page-head .attrib {
+		margin-top: 1.25rem;
+		padding-left: 0.9rem;
+		border-left: 2px solid var(--accent);
+		font-size: 0.82rem;
+		max-width: 66ch;
 	}
 
 	.facts {
@@ -145,20 +162,20 @@
 		grid-template-columns: repeat(2, 1fr);
 		gap: 0;
 		margin: 2rem 0 0;
-		border: 1px solid var(--rule-dark);
+		border: 1px solid var(--rule-light);
 	}
 
 	.fact {
 		padding: 0.85rem 1rem;
-		border-right: 1px solid var(--rule-dark);
-		border-bottom: 1px solid var(--rule-dark);
+		border-right: 1px solid var(--rule-light);
+		border-bottom: 1px solid var(--rule-light);
 	}
 
 	.facts dt {
 		font-size: 0.6rem;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: var(--rule-dark);
+		color: var(--ink-light-dim);
 		margin-bottom: 0.35rem;
 	}
 
@@ -166,7 +183,7 @@
 		margin: 0;
 		font-size: 0.8rem;
 		letter-spacing: 0.04em;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 	}
 
 	/* ── Section header (matches landing pattern) ─────────── */
@@ -176,20 +193,24 @@
 		gap: 1rem;
 		padding-bottom: 1.1rem;
 		margin-bottom: 2.5rem;
-		border-bottom: 1px solid var(--ink-dark);
+		border-bottom: 1px solid var(--ink-light);
 	}
 
 	.sec-index {
+		display: inline-block;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.15rem 0.45rem;
+		align-self: flex-start;
 		font-size: 0.72rem;
 		letter-spacing: 0.18em;
-		color: var(--accent);
 		font-weight: 500;
 	}
 
 	.sec-head h2 {
 		font-size: clamp(1.4rem, 3vw, 2.1rem);
 		letter-spacing: -0.01em;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 	}
 
 	.sec-meta {
@@ -197,7 +218,7 @@
 		font-size: 0.68rem;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 	}
 
 	.work {
@@ -215,9 +236,9 @@
 	.card {
 		display: flex;
 		flex-direction: column;
-		border: 1px solid var(--rule-dark);
-		background: var(--bg-dark-2);
-		color: var(--ink-dark);
+		border: 1px solid var(--rule-light);
+		background: var(--bg-light-2);
+		color: var(--ink-light);
 		text-decoration: none;
 		transition: transform 0.14s, box-shadow 0.14s, border-color 0.14s;
 	}
@@ -225,13 +246,13 @@
 	.card:hover {
 		transform: translate(-2px, -2px);
 		box-shadow: 6px 6px 0 var(--accent);
-		border-color: var(--accent);
+		border-color: var(--ink-light);
 		text-decoration: none;
 	}
 
 	.card-img {
 		position: relative;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule-light);
 		overflow: hidden;
 		aspect-ratio: 16 / 10;
 	}
@@ -241,12 +262,10 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
-		filter: grayscale(1) contrast(1.05);
-		transition: filter 0.2s, transform 0.3s;
+		transition: transform 0.3s;
 	}
 
 	.card:hover .card-img img {
-		filter: grayscale(0);
 		transform: scale(1.03);
 	}
 
@@ -266,13 +285,13 @@
 		position: absolute;
 		top: 0;
 		right: 0;
-		background: var(--bg-dark);
-		color: var(--ink-dark-dim);
+		background: var(--bg-light);
+		color: var(--ink-light-dim);
 		font-size: 0.62rem;
 		letter-spacing: 0.1em;
 		padding: 0.3rem 0.55rem;
-		border-left: 1px solid var(--rule-dark);
-		border-bottom: 1px solid var(--rule-dark);
+		border-left: 1px solid var(--rule-light);
+		border-bottom: 1px solid var(--rule-light);
 	}
 
 	.card-body {
@@ -285,20 +304,20 @@
 	.card-body h3 {
 		font-size: 1rem;
 		letter-spacing: 0.02em;
-		color: var(--ink-dark);
+		color: var(--ink-light);
 	}
 
 	.card-domain {
 		font-size: 0.66rem;
 		letter-spacing: 0.08em;
-		color: var(--accent);
+		color: var(--ink-light-dim);
 		margin: 0.35rem 0 0.85rem;
 	}
 
 	.card-body p {
 		font-size: 0.82rem;
 		line-height: 1.55;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		margin: 0 0 1.1rem;
 		flex: 1;
 	}
@@ -316,9 +335,9 @@
 		font-size: 0.6rem;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: var(--ink-dark-dim);
+		color: var(--ink-light-dim);
 		padding: 0.3rem 0.55rem;
-		border: 1px solid var(--rule-dark);
+		border: 1px solid var(--rule-light);
 	}
 
 	.card-link {
@@ -326,7 +345,7 @@
 		font-weight: 700;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
-		color: var(--accent);
+		color: var(--ink-light);
 	}
 
 	/* ── CTA (matches landing pattern) ────────────────────── */

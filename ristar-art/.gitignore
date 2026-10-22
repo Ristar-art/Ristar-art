@@ -17,6 +17,9 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+# Committed on purpose: holds only PUBLIC_ vars, which are inlined into the
+# client bundle and therefore public already. Never add a secret to it.
+!.env.production
 
 # Vite
 vite.config.js.timestamp-*

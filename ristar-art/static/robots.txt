@@ -1,3 +1,5 @@
-# allow crawling everything by default
+# static marketing site — everything is public
 User-agent: *
-Disallow:
+Allow: /
+
+Sitemap: https://whiterobesdevelopment.co.za/sitemap.xml

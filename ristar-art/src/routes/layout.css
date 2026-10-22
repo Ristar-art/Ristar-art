@@ -11,35 +11,39 @@
 	--font-body: var(--font-mono);
 	--font-display: var(--font-mono);
 
-	/* ── Palette: dark / light split + cyber-lime signal ── */
-	--bg-dark: #0a0a0a;
-	--bg-dark-2: #111111;
-	--bg-light: #e8e8e3;
-	--bg-light-2: #deded7;
+	/* ── Palette: bone-dominant, ink text, cyber-lime signal ──
+	   The page is light. Dark is a band treatment, used for the
+	   header, hero, CTA and footer only.
+	   Lime is a FILL, never text: #ccff00 on white is 1.17:1 and
+	   effectively invisible. Put ink on lime, never lime on bone. */
+	--bg-light: #f7f6f2; /* page surface */
+	--bg-light-2: #ffffff; /* raised panel / alternating band */
+	--bg-dark: #17181c; /* dark bands */
+	--bg-dark-2: #1f2127; /* raised panel on dark */
 
-	--ink-dark: #e8e8e3; /* text on dark */
-	--ink-dark-dim: #8a8a85;
-	--ink-light: #0a0a0a; /* text on light */
-	--ink-light-dim: #56564f;
+	--ink-light: #17181c; /* text on light */
+	--ink-light-dim: #5f6066;
+	--ink-dark: #f2f1ec; /* text on dark */
+	--ink-dark-dim: #9b9ca2;
 
-	--accent: #ccff00; /* cyber lime */
-	--accent-ink: #0a0a0a; /* text placed on accent fill */
+	--accent: #ccff00; /* cyber lime — fill only */
+	--accent-ink: #17181c; /* text placed on accent fill */
 
-	--rule-dark: #262626;
-	--rule-light: #c5c5bc;
-	--rule-strong-light: #0a0a0a;
+	--rule-light: #d9d7d0;
+	--rule-dark: #2c3036;
+	--rule-strong-light: #17181c;
 
 	/* legacy aliases still referenced around the app */
 	--color-theme-1: var(--accent);
 	--color-theme-2: var(--accent);
-	--color-text: var(--ink-dark);
+	--color-text: var(--ink-light);
 
 	--container: 76rem;
 	--gutter: clamp(1.25rem, 4vw, 3rem);
 
-	color-scheme: dark;
+	color-scheme: light;
 	font-family: var(--font-mono);
-	color: var(--ink-dark);
+	color: var(--ink-light);
 	-webkit-font-smoothing: antialiased;
 }
 
@@ -52,8 +56,8 @@
 body {
 	min-height: 100vh;
 	margin: 0;
-	background-color: var(--bg-dark);
-	color: var(--ink-dark);
+	background-color: var(--bg-light);
+	color: var(--ink-light);
 	font-family: var(--font-mono);
 	font-size: 15px;
 	line-height: 1.5;
@@ -79,13 +83,19 @@ p {
 	line-height: 1.6;
 }
 
+/* Links inherit their surface's ink and carry a lime underline, so the
+   accent stays a stroke rather than becoming unreadable text. Components
+   that paint their own links (nav, buttons, cards) set text-decoration
+   themselves and are unaffected. */
 a {
-	color: var(--accent);
+	color: inherit;
 	text-decoration: none;
 }
 
 a:hover {
 	text-decoration: underline;
+	text-decoration-color: var(--accent);
+	text-decoration-thickness: 2px;
 	text-underline-offset: 3px;
 }
 
@@ -96,11 +106,11 @@ code {
 
 pre {
 	font-size: 0.85rem;
-	background-color: var(--bg-dark-2);
-	border: 1px solid var(--rule-dark);
+	background-color: var(--bg-light-2);
+	border: 1px solid var(--rule-light);
 	padding: 1rem;
 	overflow-x: auto;
-	color: var(--ink-dark);
+	color: var(--ink-light);
 }
 
 input,
@@ -116,7 +126,7 @@ button:focus:not(:focus-visible) {
 }
 
 :focus-visible {
-	outline: 2px solid var(--accent);
+	outline: 2px solid var(--ink-light);
 	outline-offset: 2px;
 }
 
@@ -147,10 +157,10 @@ button:focus:not(:focus-visible) {
 	height: 10px;
 }
 ::-webkit-scrollbar-track {
-	background: var(--bg-dark);
+	background: var(--bg-light);
 }
 ::-webkit-scrollbar-thumb {
-	background: var(--rule-dark);
+	background: var(--rule-light);
 }
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--accent);

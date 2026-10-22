@@ -3,9 +3,19 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.webp" />
+		<meta name="theme-color" content="#17181c" />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+		<!-- Load fonts without blocking render (swaps to stylesheet once fetched). -->
+		<link
+			rel="preload"
+			as="style"
+			href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+			onload="this.onload=null;this.rel='stylesheet'"
+		>
+		<noscript>
+			<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+		</noscript>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
 		%sveltekit.head%

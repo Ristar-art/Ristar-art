@@ -1,15 +1,25 @@
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-static';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter(),
-        alias: {
-            "@/*": "./src/lib/*",
-        },
+		// Fully static output: every route is prerendered to HTML at build time
+		// and the result in `build/` can be served by any static host or CDN.
+		// Anything that needs a server lives in ../ristar-art-backend.
+		adapter: adapter({
+			pages: 'build',
+			assets: 'build',
+			// Not an SPA fallback: static hosts (Netlify, Cloudflare Pages,
+			// GitHub Pages, nginx) serve 404.html with a real 404 status, so
+			// this is what gives an unknown path the site's own error page
+			// instead of the host's default.
+			fallback: '404.html',
+			precompress: true,
+			strict: true
+		}),
+		alias: {
+			'@/*': './src/lib/*'
+		}
 	}
 };
 

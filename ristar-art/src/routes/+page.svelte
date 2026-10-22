@@ -2,8 +2,20 @@
 	import { onMount } from 'svelte';
 	import { Code, Search, Palette, Mail, Quote } from '@lucide/svelte';
 	import PageNavigation from './PageNavigation.svelte';
+	import Seo from '$lib/Seo.svelte';
+	import {
+		SITE_URL,
+		SITE_NAME,
+		LEGAL_NAME,
+		FOUNDER,
+		CONTACT_EMAIL,
+		GITHUB_URL,
+		absolute
+	} from '$lib/site';
 
-	const ACCENT = '#ccff00';
+	// Lime is a fill, never a stroke: these icons sit on light bands,
+	// where #ccff00 is 1.17:1 and effectively invisible.
+	const ICON = '#17181c';
 
 	const sections = [
 		{ id: 'hero', title: 'Intro', level: 0 },
@@ -35,34 +47,71 @@
 			img: '/mtubatuba.webp',
 			name: 'Mtubatuba St Lucia',
 			domain: 'mtubastluciatourism.co.za',
-			desc: 'Official tourism site showcasing the natural beauty, wildlife, and attractions of the Mtubatuba,st Lucia and Dukuduku region and theit surroundings.'
+			desc: 'Official tourism site showcasing the natural beauty, wildlife, and attractions of the Mtubatuba, St Lucia and Dukuduku region and their surroundings.'
 		}
 	];
 
 	const services = [
 		{ icon: Code, title: 'Web & App Development', desc: 'Fast, conversion-focused web and mobile applications built with modern technology.' },
-		{ icon: Search, title: 'SEO', desc: 'Search optimization to improve visibility, drive traffic, and grow your online presence.' },
-		{ icon: Palette, title: 'Portfolio Design', desc: 'Custom portfolio websites that showcase your work and leave a lasting impression.' },
+		{ icon: Search, title: 'SEO', desc: 'Search optimisation that improves visibility, drives traffic, and grows your online presence.' },
+		{ icon: Palette, title: 'Portfolio & Brand Sites', desc: 'Custom sites that showcase your work and leave a lasting impression on every visitor.' },
 		{ icon: Mail, title: 'Email Signature Design', desc: 'Professional, branded email signatures that reinforce your identity in every message.' }
 	];
 
 	const steps = [
 		{ title: 'Discovery Call', desc: 'We talk through your goals, audience, and scope so the project starts with a clear target.' },
 		{ title: 'Proposal & Quote', desc: 'You get a fixed scope, timeline, and price — no surprises, no hidden costs.' },
-		{ title: 'Design & Approval', desc: 'I share mockups for review. We refine together until you sign off on the direction.' },
-		{ title: 'Build & Iterate', desc: 'Development with regular check-ins so you always know where things stand.' },
+		{ title: 'Design & Approval', desc: 'We share mockups for review and refine together until you sign off on the direction.' },
+		{ title: 'Build & Iterate', desc: 'Development with regular check-ins, so you always know where things stand.' },
 		{ title: 'Launch & Handover', desc: 'We go live. You get deployment, a walkthrough, and the docs to run it confidently.' },
 		{ title: 'Ongoing Support', desc: 'Post-launch tweaks and maintenance to keep everything fast and current.' }
 	];
 
-	const stack = ['React JS', 'React Native', 'Node.js', 'MongoDB', 'Firebase', 'JavaScript', 'HTML / CSS', 'Svelte'];
-	const strengths = ['Web & Mobile Dev', 'Tech Creativity', 'Digital Marketing', 'Negotiation', 'Critical Thinking', 'Leadership'];
+	const stack = ['Svelte', 'React JS', 'React Native', 'Node.js', 'TypeScript', 'MongoDB', 'Firebase', 'HTML / CSS'];
+	const strengths = ['Web & Mobile Dev', 'Technical Strategy', 'UI / UX Design', 'SEO & Growth', 'Digital Marketing', 'Maintenance & Support'];
 
 	let activeSection = $state('hero');
 
 	function scrollToSection(id: string) {
 		document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 	}
+
+	// Structured data: identifies the business to search engines and enables
+	// rich results (knowledge panel, sitelinks).
+	const organizationJsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'ProfessionalService',
+		'@id': `${SITE_URL}/#organization`,
+		name: SITE_NAME,
+		legalName: LEGAL_NAME,
+		url: SITE_URL,
+		image: absolute('/heropic.webp'),
+		logo: absolute('/favicon.webp'),
+		description:
+			'White Robes Development is a South African software studio building fast, conversion-focused web and mobile applications for enterprise and local business.',
+		email: `mailto:${CONTACT_EMAIL}`,
+		founder: {
+			'@type': 'Person',
+			name: FOUNDER,
+			jobTitle: 'Founder & Lead Developer',
+			sameAs: [GITHUB_URL]
+		},
+		address: {
+			'@type': 'PostalAddress',
+			addressLocality: 'Johannesburg',
+			addressCountry: 'ZA'
+		},
+		areaServed: [
+			{ '@type': 'Country', name: 'South Africa' },
+			{ '@type': 'Place', name: 'Worldwide (remote)' }
+		],
+		sameAs: [GITHUB_URL],
+		knowsAbout: ['Svelte', 'React', 'Node.js', 'TypeScript', 'MongoDB', 'Firebase', 'SEO'],
+		makesOffer: services.map((s) => ({
+			'@type': 'Offer',
+			itemOffered: { '@type': 'Service', name: s.title, description: s.desc }
+		}))
+	};
 
 	onMount(() => {
 		const observer = new IntersectionObserver(
@@ -81,10 +130,11 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Ristar-art: Home</title>
-	<meta name="description" content="Home page of Ristar-art" />
-</svelte:head>
+<Seo
+	title="White Robes Development — Web & Mobile App Development in South Africa"
+	description="We build fast, conversion-focused web and mobile apps for enterprise and local business — Svelte, React, Node, TypeScript. Based in Johannesburg, South Africa."
+	jsonld={organizationJsonLd}
+/>
 
 <PageNavigation {sections} {activeSection} {scrollToSection} />
 
@@ -92,9 +142,9 @@
 <section id="hero" class="sec sec--dark hero">
 	<div class="shell hero-grid">
 		<div class="hero-content">
-			<span class="eyebrow">Boiketlo Mochochoko / Full-Stack Developer</span>
+			<span class="eyebrow">White Robes Development / Web &amp; Mobile Studio</span>
 			<h1>
-				<span>I design</span>
+				<span>We build</span>
 				<span class="accent">fast, conversion-focused</span>
 				<span>web &amp; mobile apps</span>
 				<span class="dim">for enterprise &amp; local business<span class="caret">_</span></span>
@@ -103,17 +153,33 @@
 				Engineered front to back. Shipped fast. Built to convert.
 			</p>
 			<div class="hero-actions">
-				<a href="/contact" class="btn btn--accent">Contact Me <span>→</span></a>
+				<a href="/contact" class="btn btn--accent">Start a Project <span>→</span></a>
 				<a href="/projects" class="btn btn--ghost">View Work</a>
 			</div>
 		</div>
 
 		<figure class="hero-image">
-			<img src="/heropic.webp" alt="Boiketlo Mochochoko" />
-			<figcaption>
-				<span>RISTAR</span>
-				<span class="ok">● ONLINE</span>
-			</figcaption>
+			<div class="monitor-body">
+				<a
+					class="monitor-screen"
+					href="https://www.mtubastluciatourism.co.za/"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					<img
+						src="/mtubatuba.webp"
+						alt="Mtubatuba St Lucia tourism website — a live build by our founder"
+						width="2940"
+						height="1607"
+						fetchpriority="high"
+					/>
+				</a>
+				<div class="monitor-chin">
+					<span>MTUBASTLUCIATOURISM.CO.ZA</span>
+					<span class="ok">● LIVE</span>
+				</div>
+			</div>
+			<div class="monitor-stand" aria-hidden="true"></div>
 		</figure>
 	</div>
 	<div class="hero-marquee" aria-hidden="true">
@@ -134,11 +200,23 @@
 			<span class="sec-meta">{projects.length} live builds</span>
 		</header>
 
+		<p class="sec-note">
+			These sites were designed, built and shipped by our founder before White Robes Development
+			was formed. They are here as a record of the work and the standard behind it — not as
+			studio projects.
+		</p>
+
 		<div class="grid-3">
 			{#each projects as p, i}
 				<a href={p.href} target="_blank" rel="noopener" class="card">
 					<div class="card-img">
-						<img src={p.img} alt={`${p.name} screenshot`} />
+						<img
+							src={p.img}
+							alt={`${p.name} website screenshot`}
+							width="2940"
+							height="1607"
+							loading="lazy"
+						/>
 						<span class="card-tag">{String(i + 1).padStart(2, '0')}</span>
 					</div>
 					<div class="card-body">
@@ -156,19 +234,19 @@
 </section>
 
 <!-- ── STACK / SERVICES ─────────────────────────────────── -->
-<section id="services" class="sec sec--dark">
+<section id="services" class="sec sec--panel">
 	<div class="shell">
 		<header class="sec-head">
 			<span class="sec-index">// 02</span>
 			<h2>Capabilities</h2>
-			<span class="sec-meta">What I ship</span>
+			<span class="sec-meta">What we ship</span>
 		</header>
 
 		<div class="grid-services">
 			{#each services as s, i}
 				<div class="service">
 					<span class="service-idx">{String(i + 1).padStart(2, '0')}</span>
-					<s.icon size={26} color={ACCENT} strokeWidth={1.5} />
+					<s.icon size={26} color={ICON} strokeWidth={1.5} />
 					<h3>{s.title}</h3>
 					<p>{s.desc}</p>
 				</div>
@@ -199,7 +277,7 @@
 </section>
 
 <!-- ── SIGNAL / TESTIMONIAL ─────────────────────────────── -->
-<section id="testimonials" class="sec sec--dark">
+<section id="testimonials" class="sec sec--panel">
 	<div class="shell">
 		<header class="sec-head">
 			<span class="sec-index">// 04</span>
@@ -208,7 +286,7 @@
 		</header>
 
 		<figure class="quote">
-			<Quote size={32} color={ACCENT} strokeWidth={1.5} />
+			<Quote size={32} color={ICON} strokeWidth={1.5} />
 			<blockquote>
 				Boiketlo is a rare breed of Full Stack Developer who pairs an obsession with
 				high-functioning backend architecture with a genuine care for refining frontend
@@ -218,9 +296,15 @@
 				B 'Ristar' is an absolute essential for any Team.
 			</blockquote>
 			<figcaption>
-				<img src="/Thoto%20R%20Nhlapo.webp" alt="Thoto R Nhlapo" />
+				<img
+					src="/Thoto%20R%20Nhlapo.webp"
+					alt="Thoto R. Nhlapo"
+					width="485"
+					height="512"
+					loading="lazy"
+				/>
 				<span class="q-name">Thoto R. Nhlapo</span>
-				<span class="q-role">Former Manager</span>
+				<span class="q-role">Former Manager — on our founder</span>
 			</figcaption>
 		</figure>
 	</div>
@@ -236,14 +320,14 @@
 		</header>
 
 		<div class="spec-block">
-			<h3 class="spec-q"><span>Q/</span> What stack do you use?</h3>
+			<h3 class="spec-q"><span>Q/</span> What stack do you build on?</h3>
 			<ul class="chips">
 				{#each stack as item}<li>{item}</li>{/each}
 			</ul>
 		</div>
 
 		<div class="spec-block">
-			<h3 class="spec-q"><span>Q/</span> What are you good at?</h3>
+			<h3 class="spec-q"><span>Q/</span> What do you do best?</h3>
 			<ul class="chips">
 				{#each strengths as item}<li>{item}</li>{/each}
 			</ul>
@@ -263,7 +347,7 @@
 			</p>
 			<div class="cta-actions">
 				<a href="/contact" class="btn btn--invert">Start a Project →</a>
-				<a href="mailto:mochochokoboiketlo@gmail.com" class="cta-mail">mochochokoboiketlo@gmail.com</a>
+				<a href={`mailto:${CONTACT_EMAIL}`} class="cta-mail">{CONTACT_EMAIL}</a>
 			</div>
 		</div>
 	</div>
@@ -292,6 +376,16 @@
 		--rule: var(--rule-light);
 	}
 
+	/* Same ink as .sec--light, one step brighter, so two light sections
+	   in a row still read as separate bands. */
+	.sec--panel {
+		background: var(--bg-light-2);
+		color: var(--ink-light);
+		--fg: var(--ink-light);
+		--fg-dim: var(--ink-light-dim);
+		--rule: var(--rule-light);
+	}
+
 	.shell {
 		max-width: var(--container);
 		margin: 0 auto;
@@ -308,9 +402,13 @@
 	}
 
 	.sec-index {
+		display: inline-block;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.15rem 0.45rem;
+		align-self: flex-start;
 		font-size: 0.72rem;
 		letter-spacing: 0.18em;
-		color: var(--accent);
 		font-weight: 500;
 	}
 
@@ -459,52 +557,86 @@
 		gap: 1rem;
 	}
 
+	/* ── Hero: desktop monitor housing the live screenshot ── */
 	.hero-image {
 		position: relative;
 		margin: 0;
-		border: 1px solid var(--rule-dark);
-		padding: 0.6rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
-	.hero-image::before,
-	.hero-image::after {
-		content: '';
-		position: absolute;
-		width: 18px;
-		height: 18px;
-		border: 2px solid var(--accent);
+	.monitor-body {
+		width: 100%;
+		padding: 0.6rem 0.6rem 0;
+		background: var(--bg-dark-2);
+		border: 1px solid var(--rule-dark);
 	}
-	.hero-image::before {
-		top: -1px;
-		left: -1px;
-		border-right: none;
-		border-bottom: none;
+
+	.monitor-screen {
+		display: block;
+		line-height: 0;
+		border: 1px solid var(--rule-dark);
+		transition: border-color 0.18s;
 	}
-	.hero-image::after {
-		bottom: -1px;
-		right: -1px;
-		border-left: none;
-		border-top: none;
+
+	.monitor-screen:hover {
+		border-color: var(--accent);
 	}
 
 	.hero-image img {
 		width: 100%;
 		height: auto;
 		display: block;
-		filter: grayscale(0.15) contrast(1.05);
 	}
 
-	.hero-image figcaption {
+	.monitor-chin {
 		display: flex;
 		justify-content: space-between;
-		padding: 0.6rem 0.2rem 0.1rem;
+		align-items: center;
+		gap: 1rem;
+		padding: 0.6rem 0.1rem;
 		font-size: 0.62rem;
 		letter-spacing: 0.16em;
 		color: var(--ink-dark-dim);
 	}
 
-	.hero-image figcaption .ok {
+	.monitor-chin .ok {
 		color: var(--accent);
+	}
+
+	/* neck + base, drawn as two stacked rectangles */
+	.monitor-stand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.monitor-stand::before,
+	.monitor-stand::after {
+		content: '';
+		display: block;
+	}
+
+	/* neck */
+	.monitor-stand::before {
+		width: 13%;
+		min-width: 58px;
+		max-width: 88px;
+		height: 1.7rem;
+		background: var(--bg-dark-2);
+		border-left: 1px solid var(--rule-dark);
+		border-right: 1px solid var(--rule-dark);
+	}
+
+	/* base */
+	.monitor-stand::after {
+		width: 40%;
+		min-width: 175px;
+		max-width: 250px;
+		height: 0.7rem;
+		background: var(--rule-dark);
 	}
 
 	/* ── Hero marquee ─────────────────────────────────────── */
@@ -533,6 +665,17 @@
 		}
 	}
 
+	/* ── Attribution note ─────────────────────────────────── */
+	.sec-note {
+		max-width: 68ch;
+		margin: -1.25rem 0 2rem;
+		padding-left: 0.9rem;
+		border-left: 2px solid var(--accent);
+		font-size: 0.8rem;
+		line-height: 1.6;
+		color: var(--fg-dim);
+	}
+
 	/* ── Grids ────────────────────────────────────────────── */
 	.grid-3 {
 		display: grid;
@@ -545,7 +688,7 @@
 		display: flex;
 		flex-direction: column;
 		border: 1px solid var(--rule-strong-light);
-		background: var(--bg-light);
+		background: var(--bg-light-2);
 		color: var(--ink-light);
 		text-decoration: none;
 		transition: transform 0.14s, box-shadow 0.14s, border-color 0.14s;
@@ -569,12 +712,6 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
-		filter: grayscale(1) contrast(1.05);
-		transition: filter 0.2s;
-	}
-
-	.card:hover .card-img img {
-		filter: grayscale(0);
 	}
 
 	.card-tag {
@@ -633,20 +770,20 @@
 	.grid-services {
 		display: grid;
 		grid-template-columns: 1fr;
-		border-top: 1px solid var(--rule-dark);
+		border-top: 1px solid var(--rule);
 	}
 
 	.service {
 		position: relative;
 		padding: 2rem 0;
-		border-bottom: 1px solid var(--rule-dark);
+		border-bottom: 1px solid var(--rule);
 	}
 
 	.service-idx {
 		display: block;
 		font-size: 0.66rem;
 		letter-spacing: 0.18em;
-		color: var(--rule-dark);
+		color: var(--fg-dim);
 		margin-bottom: 1rem;
 	}
 
@@ -654,13 +791,13 @@
 		font-size: 1.05rem;
 		letter-spacing: 0.01em;
 		margin: 1rem 0 0.6rem;
-		color: var(--ink-dark);
+		color: var(--fg);
 	}
 
 	.service p {
 		font-size: 0.82rem;
 		line-height: 1.6;
-		color: var(--ink-dark-dim);
+		color: var(--fg-dim);
 		max-width: 42ch;
 	}
 
@@ -669,7 +806,7 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		border-top: 1px solid var(--rule-light);
+		border-top: 1px solid var(--rule);
 	}
 
 	.step {
@@ -677,7 +814,7 @@
 		grid-template-columns: auto 1fr;
 		gap: 0.3rem 1.25rem;
 		padding: 1.5rem 0;
-		border-bottom: 1px solid var(--rule-light);
+		border-bottom: 1px solid var(--rule);
 	}
 
 	.step-num {
@@ -692,13 +829,13 @@
 	.step-title {
 		font-size: 1.05rem;
 		letter-spacing: 0.01em;
-		color: var(--ink-light);
+		color: var(--fg);
 	}
 
 	.step-desc {
 		font-size: 0.84rem;
 		line-height: 1.6;
-		color: var(--ink-light-dim);
+		color: var(--fg-dim);
 		max-width: 60ch;
 		margin: 0;
 	}
@@ -707,7 +844,7 @@
 	.quote {
 		position: relative;
 		margin: 0;
-		border: 1px solid var(--rule-dark);
+		border: 1px solid var(--rule);
 		padding: clamp(1.75rem, 4vw, 3rem);
 		max-width: 760px;
 	}
@@ -716,7 +853,7 @@
 		margin: 1.25rem 0 2rem;
 		font-size: clamp(0.95rem, 2vw, 1.15rem);
 		line-height: 1.7;
-		color: var(--ink-dark);
+		color: var(--fg);
 	}
 
 	.quote figcaption {
@@ -725,7 +862,7 @@
 		align-items: center;
 		gap: 0.1rem 1rem;
 		padding-top: 1.5rem;
-		border-top: 1px solid var(--rule-dark);
+		border-top: 1px solid var(--rule);
 	}
 
 	.quote figcaption img {
@@ -733,8 +870,7 @@
 		width: 48px;
 		height: 48px;
 		object-fit: cover;
-		border: 1px solid var(--accent);
-		filter: grayscale(1);
+		border: 2px solid var(--accent);
 	}
 
 	.q-name {
@@ -742,13 +878,13 @@
 		font-size: 0.8rem;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
-		color: var(--ink-dark);
+		color: var(--fg);
 	}
 
 	.q-role {
 		font-size: 0.72rem;
 		letter-spacing: 0.08em;
-		color: var(--ink-dark-dim);
+		color: var(--fg-dim);
 	}
 
 	/* ── Spec / FAQ ───────────────────────────────────────── */
@@ -757,16 +893,16 @@
 		grid-template-columns: 1fr;
 		gap: 1.25rem;
 		padding: 2.25rem 0;
-		border-bottom: 1px solid var(--rule-light);
+		border-bottom: 1px solid var(--rule);
 	}
 	.spec-block:first-of-type {
-		border-top: 1px solid var(--rule-light);
+		border-top: 1px solid var(--rule);
 	}
 
 	.spec-q {
 		font-size: clamp(1.2rem, 3vw, 1.8rem);
 		letter-spacing: -0.01em;
-		color: var(--ink-light);
+		color: var(--fg);
 		line-height: 1.1;
 	}
 
@@ -791,7 +927,7 @@
 		font-size: 0.72rem;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: var(--ink-light);
+		color: var(--fg);
 		padding: 0.5rem 0.9rem;
 		border: 1px solid var(--rule-strong-light);
 		transition: background 0.14s, color 0.14s, border-color 0.14s;
@@ -860,8 +996,8 @@
 	/* ── Responsive ───────────────────────────────────────── */
 	@media (min-width: 768px) {
 		.hero-grid {
-			grid-template-columns: 1.15fr 0.85fr;
-			gap: 3.5rem;
+			grid-template-columns: 1.1fr 0.9fr;
+			gap: 3rem;
 		}
 
 		.grid-3 {
